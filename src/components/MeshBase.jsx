@@ -4,7 +4,7 @@ import { useGLTF } from "@react-three/drei";
 import colors from "./colors2.json";
 import temps from "./temps.json";
 import {
-  normalizeValue,
+  normalizeRGBValue,
   mapNormalizedToRGB,
   normalizeArray,
 } from "../utils/utils";
@@ -15,17 +15,8 @@ export function MeshBase(props) {
   const planeRef = useRef();
 
   //temps
-  const rgbValues = [
-    [100, 100, 250],
-    [111, 140, 252],
-    [123, 184, 251],
-    [130, 235, 255],
-    [117, 247, 88],
-    [182, 251, 96],
-    [215, 191, 124],
-  ];
-  const tempsArr = normalizeArray(temps.aprilDay);
-  const mappedColors = mapNormalizedToRGB(tempsArr, rgbValues);
+  const tempsArr = normalizeArray(temps.h12);
+  const mappedColors = mapNormalizedToRGB(tempsArr);
   console.log(mappedColors);
   const duplicatedArraysNew = [];
   mappedColors.forEach((arr) => {
@@ -88,9 +79,9 @@ export function MeshBase(props) {
     let colors = [];
     const faces = planeRef.current.geometry.getAttribute("position").count / 3;
     for (let i = 0; i < faces; i += 2) {
-      const r = normalizeValue(duplicatedArraysNew[i][0]),
-        g = normalizeValue(duplicatedArraysNew[i][1]),
-        b = normalizeValue(duplicatedArraysNew[i][2]);
+      const r = normalizeRGBValue(duplicatedArraysNew[i][0]),
+        g = normalizeRGBValue(duplicatedArraysNew[i][1]),
+        b = normalizeRGBValue(duplicatedArraysNew[i][2]);
       colors.push(r, g, b);
       colors.push(r, g, b);
       colors.push(r, g, b);
@@ -118,7 +109,7 @@ export function MeshBase(props) {
         {/* <bufferGeometry attach="geometry" {...nodes.mesh_0.geometry}>
           <bufferAttribute attach="attributes-color" args={[colorArray, 3]} />
         </bufferGeometry> */}
-        <meshLambertMaterial wireframe={false} side={2} vertexColors />
+        <meshStandardMaterial wireframe={false} side={2} vertexColors />
       </mesh>
     </group>
   );
