@@ -9,20 +9,22 @@ import {
   normalizeArray,
 } from "../utils/utils";
 
-export function MeshBase(props) {
+export function MeshBase({ hour }) {
   const { nodes, materials } = useGLTF("/mesh_L5.gltf");
 
   const planeRef = useRef();
 
+  const hhour = `h${hour}`;
+  // console.log(hour);
   //temps
-  const tempsArr = normalizeArray(temps.h12);
+  const tempsArr = normalizeArray(temps[hhour]);
   const mappedColors = mapNormalizedToRGB(tempsArr);
-  console.log(mappedColors);
+  console.log(mappedColors[0]);
   const duplicatedArraysNew = [];
   mappedColors.forEach((arr) => {
     duplicatedArraysNew.push(arr, arr);
   });
-  console.log(duplicatedArraysNew);
+  // console.log(duplicatedArraysNew);
 
   //prep colors from lb gh
   const colorsMapped = colors.c.map((str) => str.split(",").map(Number));
@@ -73,9 +75,11 @@ export function MeshBase(props) {
   //     new THREE.Float32BufferAttribute(colors, 3)
   //   );
   // }, []);
-
   useEffect(() => {
     planeRef.current.geometry = planeRef.current.geometry.toNonIndexed();
+  }, []);
+
+  useEffect(() => {
     let colors = [];
     const faces = planeRef.current.geometry.getAttribute("position").count / 3;
     for (let i = 0; i < faces; i += 2) {
@@ -95,10 +99,10 @@ export function MeshBase(props) {
       "color",
       new THREE.Float32BufferAttribute(colors, 3)
     );
-  }, []);
+  }, [hour]);
 
   return (
-    <group {...props} dispose={null}>
+    <group dispose={null}>
       <mesh
         castShadow
         receiveShadow
