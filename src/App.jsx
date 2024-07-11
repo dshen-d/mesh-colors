@@ -12,7 +12,7 @@ function App() {
         <ambientLight intensity={2} />
         <directionalLight color="white" position={[0, 0, 5]} />
         <mesh>
-          <boxGeometry />
+          <boxGeometry args={[10, 10, 10]} />
           <meshStandardMaterial />
         </mesh>
         <MeshBase hour={hour} />

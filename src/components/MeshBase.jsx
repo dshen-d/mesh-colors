@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { useRef, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import colors from "./colors2.json";
-import temps from "./temps.json";
+import temps from "./tempsHoy2.json";
 import {
   normalizeRGBValue,
   mapNormalizedToRGB,
@@ -10,14 +10,15 @@ import {
 } from "../utils/utils";
 
 export function MeshBase({ hour }) {
-  const { nodes, materials } = useGLTF("/mesh_L5.gltf");
+  const { nodes, materials } = useGLTF("/mesh_origin.gltf");
 
   const planeRef = useRef();
 
   const hhour = `h${hour}`;
   // console.log(hour);
   //temps
-  const tempsArr = normalizeArray(temps[hhour]);
+  // const tempsArr = normalizeArray(temps[hhour]);
+  const tempsArr = normalizeArray(temps["4920"]);
   const mappedColors = mapNormalizedToRGB(tempsArr);
   console.log(mappedColors[0]);
   const duplicatedArraysNew = [];
